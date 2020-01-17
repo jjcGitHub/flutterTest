@@ -1,0 +1,8 @@
+/flutter_app/README.md
+/flutter_app/android
+/flutter_app/test
+/flutter_app/*.packages
+/flutter_app/*.iml
+/flutter_app/pubspec.lock
+/flutter_app/*.metadata
+/.idea
