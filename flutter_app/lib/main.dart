@@ -1,6 +1,9 @@
 //导入相关的控件
 import 'package:flutter/material.dart';
 
+//导入电影列表页面
+import 'package:flutter_app/movie/list.dart';
+
 //入口函数
 void main() => runApp(MyApp());
 
@@ -32,101 +35,67 @@ class MyHome extends StatelessWidget{
 
   @override
   Widget build(BuildContext context){
-    return Scaffold(
+
+    return DefaultTabController(length:3, child: Scaffold(
       appBar: AppBar(title: Text('电影列表'),
-      centerTitle: true,
+        centerTitle: true,
         //右侧行为按钮
         actions: <Widget>[
           //icon 渲染图标
           IconButton(icon: Icon(Icons.search),onPressed: (){},)
         ],
       ),
-      drawer: Drawer(),
-    );
-  }
-}
+      drawer: Drawer(
+        child: ListView(children: <Widget>[
+          UserAccountsDrawerHeader(accountEmail: Text('1226196941@qq.com'),
+            accountName: Text('老蒋'),
+            currentAccountPicture: CircleAvatar(
+              backgroundImage: NetworkImage("https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=3463668003,3398677327&fm=58"),
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
-          ],
-        ),
+            //美化当前控件,不仅仅是UserAccountsDrawerHeader才有的
+
+//            decoration: BoxDecoration(
+//              //背景图片
+//              image: DecorationImage(
+//                  fit: BoxFit.cover,
+//                  image: NetworkImage("https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=3463668003,3398677327&fm=58"))
+//            ),
+          ),
+          ListTile(title: Text("用户反馈"), trailing: Icon(Icons.feedback),),
+          ListTile(title: Text("系统设置"), trailing: Icon(Icons.settings),),
+          ListTile(title: Text("我要发布"), trailing: Icon(Icons.send),),
+          ListTile(title: Text("注销"), trailing: Icon(Icons.exit_to_app),
+          ),
+          //分割线
+          Divider(color: Colors.red)
+
+        ],),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
+
+      //底部的tabBar
+      bottomNavigationBar:Container(
+        //美化当前的Container盒子
+        decoration: BoxDecoration(color: Colors.black),
+        //一般高度都是50
+        height: 50,
+
+        child:  TabBar(
+          labelStyle: TextStyle(height: 0,fontSize:10 ),
+            tabs: <Widget>[
+        Tab(icon: Icon(Icons.movie_filter),text: '正在热映',),
+        Tab(icon: Icon(Icons.movie_creation),text: '即将上映',),
+        Tab(icon: Icon(Icons.local_movies),text: 'Top250',),
+      ]),
+      ),
+      body: TabBarView(children: <Widget>[
+        MovieList(mt: "in_theat",),
+        MovieList(mt: "coming",),
+        MovieList(mt: "top",)
+      ]),
+
+    ),);
   }
 }
+
+
